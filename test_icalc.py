@@ -29,8 +29,16 @@ class iCalcTestCase(unittest.TestCase):
         for expr in exprs:
             result = icalc.eval_(expr)
             self.assertEqual(2, result, "2 expected for expression '%s'" % expr)
+            
+    def test_cheval(self):
+        #testing cheval variation one
+        exprs=["99-76","-76+99","---76+99","-76-+-99","99+-76"]
+        for expr in exprs:
+            result= icalc.cheval(expr)
+            self.assertEqual(23,result,"expected 23 as result for '%s'"%expr)
 
         
 
 if __name__ == "__main__":
     unittest.main()
+    

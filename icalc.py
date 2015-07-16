@@ -4,6 +4,7 @@ icalc is a command-line based interactive calculator which mimics how the Python
 interactive interpreter evaluates mathematical expressions.
 """
 
+
  
 # note: naming the method below 'eval' will hide the python's built-in method
 # which goes by the same name.
@@ -79,4 +80,59 @@ def eval2(expr):
     return x
 
 
+def cheval(expr):
+    """ charcter by character evaluation of mathematical expressions"""
     
+    expr+="+"
+    bucket=""
+    store=[]#...stores the values to be summed
+    
+    for char in expr:
+        if char !="+" and char != "-":
+            # to ensure that the character is an integer
+            try:
+                int(char)
+                bucket+=char
+            except:
+                return "invalid expression"
+            
+        else:
+            #expressions such as "-5+7+9" where bucket is empty at the start
+            if bucket == "":
+                bucket+=char
+                
+            #expressions such as "5+-9+--+8"
+            #at this point i tried 'if' instead of 'elif' and it failed
+            #in the unit test, i'm still trying to figure out why.
+             
+            elif bucket[int(len(bucket)-1)]== "+" or bucket[int(len(bucket)-1)]=="-":
+                bucket+=char
+
+
+            else:
+                #solves the multiple operators 
+                min_count=0
+                numbers=""
+                for digs in bucket:
+                    if digs == "-":
+                        min_count+=1
+                    elif digs !="-" and digs !="+":
+                        numbers+=digs
+                if min_count ==1 or min_count%2==1:
+                    bucket= "-"+numbers
+                else:
+                    bucket= numbers
+                    
+                store.append(int(bucket))
+                bucket=""
+                bucket+=char
+
+
+
+
+    return sum(store)
+
+
+
+
+
